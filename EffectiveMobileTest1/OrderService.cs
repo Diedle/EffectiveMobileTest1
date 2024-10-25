@@ -10,7 +10,7 @@ namespace EffectiveMobileTest1
         {
             var orders = new List<Order>();
 
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (var fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read))
             using (var streamReader = new StreamReader(fileStream))
             using (var jsonReader = new JsonTextReader(streamReader))
             {

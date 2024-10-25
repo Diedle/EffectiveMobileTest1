@@ -31,11 +31,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 
-// Путь к Json файлу
-string filePath = "orders.json";
+Config config = Config.LoadConfig("config.json");
 
 // Загрузка заказов из файла при запуске приложения
-var orders = OrderService.LoadOrdersFromFile(filePath);
+var orders = OrderService.LoadOrdersFromFile(config.InputFilePath);
 
 // Вывести количество заказов в консоль для диагностики
 Console.WriteLine($"Количество загруженных заказов: {orders.Count}");
@@ -43,7 +42,7 @@ Console.WriteLine($"Количество загруженных заказов: {orders.Count}");
 app.MapGet("/orders", () => orders);
 
 // Определение маршрута для фильтрации заказов
-app.MapGet("/orders/filter", (string district, DateTimeOffset from, DateTimeOffset to) =>
+app.MapGet("/orders/filter1", (string district, DateTimeOffset from, DateTimeOffset to) =>
 {
 
     // Фильтрация заказов
@@ -55,6 +54,22 @@ app.MapGet("/orders/filter", (string district, DateTimeOffset from, DateTimeOffs
     }
 
     return Results.Ok(filteredOrders);
+});
+
+app.MapGet("/orders/filter2", (string district, DateTime firstDeliverytime) =>
+{
+    
+    DateTime targetTime = firstDeliverytime.AddMinutes(30);
+
+    // Фильтрация заказов
+    var filteredOrders2 = OrderService.FilterOrders(orders, district, firstDeliverytime, targetTime);
+
+    if (filteredOrders2.Count == 0)
+    {
+        return Results.NotFound("No orders found matching the criteria.");
+    }
+
+    return Results.Ok(filteredOrders2);
 });
 
 app.Run();
