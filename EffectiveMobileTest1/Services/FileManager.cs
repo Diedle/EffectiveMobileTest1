@@ -1,12 +1,11 @@
-﻿using System.Globalization;
+﻿using EffectiveMobileTest1.Models;
 using Newtonsoft.Json;
 
-
-namespace EffectiveMobileTest1
+namespace EffectiveMobileTest1.Services
 {
-    public static class OrderService
+    public class FileManager : IFileManager
     {
-        public static List<Order> LoadOrdersFromFile(string filePath)
+        public List<Order> LoadOrdersFromFile(string filePath)
         {
             var orders = new List<Order>();
 
@@ -33,11 +32,17 @@ namespace EffectiveMobileTest1
             return orders;
         }
 
-        public static List<Order> FilterOrders(List<Order> orders, string district, DateTimeOffset from, DateTimeOffset to)
+        public void SaveFilteredOrdersToFile(List<Order> orders, string filePath)
         {
-            return orders.Where(order =>
-                order.District.Equals(district, StringComparison.OrdinalIgnoreCase) &&
-                order.DeliveryTime >= from && order.DeliveryTime <= to).ToList();
+            using (var streamWriter = new StreamWriter(filePath))
+            {
+                var serializer = new JsonSerializer();
+                foreach (var order in orders)
+                {
+                    serializer.Serialize(streamWriter, order);
+                    streamWriter.WriteLine();  // Записываем перевод строки после каждой записи
+                }
+            }
         }
     }
 }

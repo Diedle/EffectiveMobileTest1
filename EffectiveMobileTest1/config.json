@@ -1,6 +1,0 @@
-{
-    "InputFilePath": "orders.json",
-    "OutputFilePath": "filtered_orders.txt",
-  "TimeRangeMinutes": 0
-}
-

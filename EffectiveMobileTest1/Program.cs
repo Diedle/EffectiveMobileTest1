@@ -1,21 +1,30 @@
-using System.Globalization;
-using EffectiveMobileTest1;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
+using EffectiveMobileTest1.Middleware;
+using EffectiveMobileTest1.Models;
+using EffectiveMobileTest1.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json");
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers();
+builder.Services.AddSingleton<IOrderService, OrderService>();
+builder.Services.AddSingleton<IFileManager, FileManager>();
+builder.Services.AddSingleton<IOrderFilter, OrderFilter>();
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddMemoryCache();
+
+
 var app = builder.Build();
+
+app.UseMiddleware<JsonValidationMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -26,50 +35,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.MapControllers();
 
+// Настройка маршрутизации
+app.UseRouting();
 
-Config config = Config.LoadConfig("config.json");
+app.UseAuthorization();
 
-// Загрузка заказов из файла при запуске приложения
-var orders = OrderService.LoadOrdersFromFile(config.InputFilePath);
-
-// Вывести количество заказов в консоль для диагностики
-Console.WriteLine($"Количество загруженных заказов: {orders.Count}");
-
-app.MapGet("/orders", () => orders);
-
-// Определение маршрута для фильтрации заказов
-app.MapGet("/orders/filter1", (string district, DateTimeOffset from, DateTimeOffset to) =>
+app.UseEndpoints(endpoints =>
 {
-
-    // Фильтрация заказов
-    var filteredOrders = OrderService.FilterOrders(orders, district, from, to);
-
-    if (filteredOrders.Count == 0)
-    {
-        return Results.NotFound("No orders found matching the criteria.");
-    }
-
-    return Results.Ok(filteredOrders);
-});
-
-app.MapGet("/orders/filter2", (string district, DateTime firstDeliverytime) =>
-{
-    
-    DateTime targetTime = firstDeliverytime.AddMinutes(30);
-
-    // Фильтрация заказов
-    var filteredOrders2 = OrderService.FilterOrders(orders, district, firstDeliverytime, targetTime);
-
-    if (filteredOrders2.Count == 0)
-    {
-        return Results.NotFound("No orders found matching the criteria.");
-    }
-
-    return Results.Ok(filteredOrders2);
+    _ = endpoints.MapControllers();
 });
 
 app.Run();
+public partial class Program { }

@@ -1,4 +1,4 @@
-﻿namespace EffectiveMobileTest1
+﻿namespace EffectiveMobileTest1.Models
 {
     public class Order
     {
@@ -15,5 +15,4 @@
             DeliveryTime = deliveryTime;
         }
     }
-
 }
