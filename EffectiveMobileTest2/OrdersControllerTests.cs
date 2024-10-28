@@ -2,19 +2,22 @@ using EffectiveMobileTest1.Controllers;
 using EffectiveMobileTest1.Models;
 using EffectiveMobileTest1.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace EffectiveMobileTest2
 {
     public class OrdersControllerTests
     {
-        private readonly Mock<IOrderFilter> _mockOrderFilter;
+        private readonly Mock<IOrderHandler> _mockOrderFilter;
+        private readonly Mock<ILogger<OrdersController>> _mockLogger;
         private readonly OrdersController _controller;
 
         public OrdersControllerTests()
         {
-            _mockOrderFilter = new Mock<IOrderFilter>();
-            _controller = new OrdersController(_mockOrderFilter.Object);
+            _mockOrderFilter = new Mock<IOrderHandler>();
+            _mockLogger = new Mock<ILogger<OrdersController>>();
+            _controller = new OrdersController(_mockOrderFilter.Object, _mockLogger.Object);
         }
 
         [Fact]

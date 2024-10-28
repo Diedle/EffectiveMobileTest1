@@ -3,8 +3,16 @@ using Newtonsoft.Json;
 
 namespace EffectiveMobileTest1.Services
 {
+    /// <summary>
+    /// Working with files.
+    /// </summary>
     public class FileManager : IFileManager
     {
+        // <summary>
+        /// Loads orders from the specified file.
+        /// </summary>
+        /// <param name="filePath">The path to the file containing the orders.</param>
+        /// <returns>A list of orders.</returns>
         public List<Order> LoadOrdersFromFile(string filePath)
         {
             var orders = new List<Order>();
@@ -28,10 +36,14 @@ namespace EffectiveMobileTest1.Services
                     }
                 }
             }
-
             return orders;
         }
 
+        /// <summary>
+        /// Saves filtered orders to the specified file.
+        /// </summary>
+        /// <param name="orders">The list of orders to save.</param>
+        /// <param name="filePath">The path to the file where the orders will be saved.</param>
         public void SaveFilteredOrdersToFile(List<Order> orders, string filePath)
         {
             using (var streamWriter = new StreamWriter(filePath))
@@ -40,7 +52,7 @@ namespace EffectiveMobileTest1.Services
                 foreach (var order in orders)
                 {
                     serializer.Serialize(streamWriter, order);
-                    streamWriter.WriteLine();  // Записываем перевод строки после каждой записи
+                    streamWriter.WriteLine();
                 }
             }
         }
