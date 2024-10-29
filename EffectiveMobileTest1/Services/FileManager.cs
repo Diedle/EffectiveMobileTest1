@@ -22,7 +22,6 @@ namespace EffectiveMobileTest1.Services
             using (var jsonReader = new JsonTextReader(streamReader))
             {
                 var serializer = new JsonSerializer();
-                jsonReader.SupportMultipleContent = true;
 
                 while (jsonReader.Read())
                 {
@@ -48,12 +47,11 @@ namespace EffectiveMobileTest1.Services
         {
             using (var streamWriter = new StreamWriter(filePath))
             {
-                var serializer = new JsonSerializer();
-                foreach (var order in orders)
+                var serializer = new JsonSerializer
                 {
-                    serializer.Serialize(streamWriter, order);
-                    streamWriter.WriteLine();
-                }
+                    Formatting = Formatting.Indented
+                };
+                serializer.Serialize(streamWriter, orders);
             }
         }
     }

@@ -79,7 +79,7 @@ namespace EffectiveMobileTest1.Services
         private List<Order> GetOrders()
         {
             _logger.LogInformation("Attempting to retrieve orders from cache at {Time}", DateTime.Now);
-            if (!_cache.TryGetValue(OrdersCacheKey, out List<Order> orders))
+            if (!_cache.TryGetValue(OrdersCacheKey, out List<Order>? orders))
             {
                 _logger.LogInformation("Cache miss. Loading orders from file at {Time}", DateTime.Now);
 
@@ -88,7 +88,7 @@ namespace EffectiveMobileTest1.Services
                 if (orders != null && orders.Count > 0)
                 {
                     _logger.LogInformation("Successfully loaded {OrderCount} orders from file at {Time}", orders.Count, DateTime.Now);
-                    _cache.Set(OrdersCacheKey, orders, TimeSpan.FromMinutes(30));
+                    _cache.Set(OrdersCacheKey, orders, TimeSpan.FromMinutes(double.Parse(_configuration[VariableContants.CacheLifeTime])));
                     _logger.LogInformation("Orders cached at {Time}", DateTime.Now);
                 }
             }
@@ -96,7 +96,7 @@ namespace EffectiveMobileTest1.Services
             {
                 _logger.LogInformation("Orders retrieved from cache at {Time}", DateTime.Now);
             }
-            return orders;
+            return orders ?? [];
         }
     }
 }

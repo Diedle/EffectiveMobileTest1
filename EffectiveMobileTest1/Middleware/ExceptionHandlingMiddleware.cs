@@ -34,7 +34,7 @@ namespace EffectiveMobileTest1.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred at {Time}", DateTime.Now);
+                _logger.LogInformation(ex, "An unexpected error occurred at {Time}", DateTime.Now);
                 context.Response.StatusCode = 500; // Internal Server Error
                 await context.Response.WriteAsync($"An unexpected error occurred: {ex.Message}");
             }

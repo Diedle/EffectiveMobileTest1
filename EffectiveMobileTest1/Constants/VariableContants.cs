@@ -19,5 +19,10 @@
         /// The path to the output file.
         /// </summary>
         public static string OutputFilePath = nameof(OutputFilePath);
+
+        /// <summary>
+        /// Cache life time.
+        /// </summary>
+        public static string CacheLifeTime = nameof(CacheLifeTime); 
     }
 }
