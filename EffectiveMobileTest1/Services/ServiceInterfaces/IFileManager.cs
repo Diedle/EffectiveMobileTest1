@@ -1,6 +1,6 @@
 ﻿using EffectiveMobileTest1.Models;
 
-namespace EffectiveMobileTest1.Services
+namespace EffectiveMobileTest1.Services.ServiceInterfaces
 {
     /// <summary>
     /// Defines methods for managing the loading and saving of orders to and from files.

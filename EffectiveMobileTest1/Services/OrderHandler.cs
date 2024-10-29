@@ -1,5 +1,6 @@
 ﻿using EffectiveMobileTest1.Constants;
 using EffectiveMobileTest1.Models;
+using EffectiveMobileTest1.Services.ServiceInterfaces;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace EffectiveMobileTest1.Services

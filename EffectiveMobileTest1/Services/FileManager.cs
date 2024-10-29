@@ -1,4 +1,5 @@
 ﻿using EffectiveMobileTest1.Models;
+using EffectiveMobileTest1.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 
 namespace EffectiveMobileTest1.Services

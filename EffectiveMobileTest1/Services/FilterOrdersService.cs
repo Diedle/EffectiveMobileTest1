@@ -1,4 +1,5 @@
 ﻿using EffectiveMobileTest1.Models;
+using EffectiveMobileTest1.Services.ServiceInterfaces;
 
 namespace EffectiveMobileTest1.Services
 {

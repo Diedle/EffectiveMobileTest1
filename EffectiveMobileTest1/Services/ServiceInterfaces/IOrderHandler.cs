@@ -1,6 +1,6 @@
 ﻿using EffectiveMobileTest1.Models;
 
-namespace EffectiveMobileTest1.Services
+namespace EffectiveMobileTest1.Services.ServiceInterfaces
 {
     /// <summary>
     /// Provides filtering of processing orders and caching operations.

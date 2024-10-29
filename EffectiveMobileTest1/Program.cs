@@ -1,5 +1,6 @@
 ﻿using EffectiveMobileTest1.Middleware;
 using EffectiveMobileTest1.Services;
+using EffectiveMobileTest1.Services.ServiceInterfaces;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

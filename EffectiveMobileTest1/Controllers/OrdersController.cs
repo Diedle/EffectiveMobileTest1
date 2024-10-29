@@ -1,6 +1,6 @@
 ﻿using EffectiveMobileTest1.Constants;
 using EffectiveMobileTest1.Models;
-using EffectiveMobileTest1.Services;
+using EffectiveMobileTest1.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
